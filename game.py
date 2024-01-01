@@ -42,7 +42,6 @@ def main():
     player_position = (SIZE/2, SIZE/2)
     print_board(board, player_position)
     
-
     while True:
         if msvcrt.kbhit():
             direction = get_key().lower()
