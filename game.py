@@ -40,16 +40,16 @@ def get_key():
 def main():
     board = [['.' for _ in range(SIZE)] for _ in range(SIZE)]
     player_position = (SIZE/2, SIZE/2)
+    print_board(board, player_position)
     
 
     while True:
-        print_board(board, player_position)
-
         if msvcrt.kbhit():
             direction = get_key().lower()
 
             if direction in ['w', 'a', 's', 'd']:
                 player_position = move_player(board, player_position, direction)
+                print_board(board, player_position)
 
         
         #time.sleep(0.1)
