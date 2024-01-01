@@ -32,7 +32,7 @@ def print_track(track):
 def main():
     console_width, console_height = get_console_size()
     length = console_width - 1
-    space = '0'
+    space = ' '
     track = [space] * length
     toon = '-'
     track.insert(0, toon)
@@ -65,7 +65,12 @@ def fill_board(rows, cols):
     return my_dict
 
 def print_board(board):
-    print(board[{0,0}])
+    rows, cols = 5, 5  # Update with your desired dimensions
+    for row in range(1, rows + 1):
+        for col in range(1, cols + 1):
+            print(board[f'{row}{col}'], end=' ')
+        print()
+
     
 
 length = width = 5

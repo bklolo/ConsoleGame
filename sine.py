@@ -4,7 +4,7 @@ import math
 import msvcrt
 import shutil
 
-
+# Uses shutil to get the dimensions of the console
 def get_console_width():
     try:
         columns, _ = shutil.get_terminal_size()
@@ -12,11 +12,13 @@ def get_console_width():
     except:
         return 80  # Default value if unable to get console width
 
-
+# Draws the ASCII characters
 def draw_ascii_art(y_position, x_offset, rng, sine_components):
     vertical_offset = 10
 
     # Calculate the total value as the sum of individual sine wave components
+    # Characteristics of sinewave
+    ### 
     total_value = sum(
         amplitude * math.sin(frequency * (y_position - x_offset) + phase)
         for amplitude, frequency, phase in sine_components
