@@ -1,0 +1,12 @@
+
+
+-- World --
+Sword & Sorcery
+
+
+-- Gameplay --
+RPG
+	- Turn based combat
+	- stats and equipment
+	- spells
+	
