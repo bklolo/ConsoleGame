@@ -32,9 +32,9 @@ def print_track(track):
 def main():
     console_width, console_height = get_console_size()
     length = console_width - 1
-    space = ' '
+    space = '.'
     track = [space] * length
-    toon = '-'
+    toon = '@#  .0.   $%'
     track.insert(0, toon)
 
     try:
