@@ -70,6 +70,7 @@ def update_scene():
     # define player position
     player_position = (SIZE//2, SIZE//2)
 
+    # board, player_position = Board.Level_1()
 
     print_board(board, player_position)
     

@@ -2,6 +2,7 @@ import os
 import msvcrt
 import time
 import Board
+import sys
 
 SIZE = 29   # board size
 
@@ -24,6 +25,7 @@ small = 100
 medium = 500
 large = 1000
 
+player_char = '.'
 
 # MSVCRT: Microsoft Visual C Runtime module 
 # Read/decode a single keypress without waiting for the user to press Enter
@@ -31,15 +33,24 @@ def get_key():
     return msvcrt.getch().decode('utf-8')
 
 # Print the game environment
-def print_board(board, player_position):
+def print_board(board, player_position, player_char):
+    # check for door/mountain/etc here ???
+    # example: if player_position == door_pos: level = next_level
+
     os.system('cls' if os.name == 'nt' else 'clear')  # Clear the console
-    for i, row in enumerate(board):
-        for j, cell in enumerate(row):
-            if (i, j) == player_position:
-                print('.', end=' ')
+    display = ""
+    for y_index, row in enumerate(board):
+        for x_index, cell in enumerate(row):
+            if (y_index, x_index) == player_position:
+                display += player_char + ' '
             else:
-                print(cell, end=' ')
-        print()
+                display += cell + ' '
+        display += '\n'
+
+    sys.stdout.write(display)
+    sys.stdout.flush()  # console print replaces last print (less flickering)
+
+
 
 # Move the player across rows/columns
 def move_player(board, player_position, direction):
@@ -58,25 +69,21 @@ def move_player(board, player_position, direction):
     return new_row, new_col
 
 # The main game loop
+level1 = Board.Level_1()
+field = Board.Field()
 def update_scene():
-    level_start = True
-    board, position = Board.Level_1()
-    while True:
-        if level_start:
-            board, initial_position = Board.Level_1()
-            level_start = False
-        else:
-            if msvcrt.kbhit():
-                direction = get_key().lower()
+    board, position = level1
+    print_board(board, position, player_char)
 
-                if direction in ['w', 'a', 's', 'd']:
-                    player_position = move_player(board, initial_position, direction)
-                    print_board(board, player_position)
-            
-            else:
-                print_board(board, initial_position)
+    while True:
+        if msvcrt.kbhit():
+            direction = get_key().lower()
+            if direction in ['w', 'a', 's', 'd']:
+                position = move_player(board, position, direction)
+                print_board(board, position, player_char)
+                
         #time.sleep(0.1)
 
+# Check if the script is being run as the main program
 if __name__ == "__main__":
-    # update scene
     update_scene()

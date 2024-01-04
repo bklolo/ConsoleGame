@@ -25,6 +25,7 @@ cyan = Fore.CYAN
 
 ###################################################
 SIZE = 20 # screen size (20x20)
+player_start_position = (0,0)
 ###################################################
 
 def clear_screen():
@@ -70,11 +71,12 @@ def main_menu_screen():
 
 def Field():
     # original board (player centered among blanks)
-    blank_board = [['.' for _ in range(SIZE)] for _ in range(SIZE)]
-
+    level_layout = [[' ' for _ in range(SIZE)] for _ in range(SIZE)]
+    board = [list(row) for row in level_layout]
+    player_start_position = (SIZE//2, SIZE//2)
+    return board, player_start_position
 
 def Level_1():
-
     # static level (string format for ease of editing)
     level_layout = [
         "####################",
@@ -90,17 +92,17 @@ def Level_1():
         "#MMMM              #",
         "#                  #",
         "#MMMMMMMMMMMMMMMMMM#",
-        "#RRRRRRRRRRRRRRRRRRR#",
-        "#TTTTTTTTTTTTTTTTTTT#",
+        "#RRRRRRRRRRRRRRRRRR#",
+        "#TTTTTTTTTTTTTTTTTT#",
         "####################",
     ]
     # convert strings to list of chars
     board = [list(row) for row in level_layout]
     SIZE = len(board)
         # define player position
-    player_position = (SIZE//2, SIZE//2)
+    player_start_position = (SIZE//2, SIZE//2)
 
-    return board, player_position
+    return board, player_start_position
 '''
     line1 = '#' * len(story) + '#' * 30
     line2 = f'# {story} #'
