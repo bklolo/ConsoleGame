@@ -53,7 +53,7 @@ def print_board(board, player_position, player_char):
 
 
 # Move the player across rows/columns
-def move_player(board, player_position, direction):
+def move_player(board, player_position, direction) -> bool:
     row, col = player_position
     new_row, new_col = row, col
     # Need to check for collisions here
@@ -65,6 +65,13 @@ def move_player(board, player_position, direction):
         new_col -= 1
     elif direction == 'd' and col < len(board[0]) - 1:
         new_col += 1
+
+    new_pos = {
+        "X" : new_col,
+        "Y" : new_row,
+    }
+
+    # TODO: COME BACK HERE.
 
     return new_row, new_col
 
@@ -79,8 +86,10 @@ def update_scene():
         if msvcrt.kbhit():
             direction = get_key().lower()
             if direction in ['w', 'a', 's', 'd']:
-                position = move_player(board, position, direction)
-                print_board(board, position, player_char)
+                if move_player(board, position, direction):
+                    print_board(board, position, player_char)
+                #position = move_player(board, position, direction)
+                #print_board(board, position, player_char)
                 
         #time.sleep(0.1)
 

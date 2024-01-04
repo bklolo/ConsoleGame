@@ -4,16 +4,12 @@ class PlayerInventory:
 
     def __init__(self):
 
-        self.inventory_item_limit = 10 
-        self.bag = []
-        self.equiped_weapon = Items.fist
-        self.equiped_armor = Items.farm_clothing
+        self.items = []
     
-    def add_to_inventory(self, add_item): 
+    def add_item(self, new_item): 
 
-        self.add_item = add_item
-        if len(self.bag) < self.inventory_item_limit:
-            self.bag.append(self.add_item)
+        # If max inventory limit then do check here.
+        self.items.append(new_item)
 
-    def remove_from_inv(self, remove_item):
-        self.remove_item = remove_item
+    def remove_item(self, item):
+        self.items.remove(item)
