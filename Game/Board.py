@@ -1,14 +1,13 @@
-##-- This module is to handle all the print screens for the menus --##
-
-#from Map_Gen import Biome
-import Items
-
-##-- All Imports --##
-
+# Python libraries
 import os
 import sys
-import textwrap
 import time
+# Custom classes
+import Items
+import Player
+
+# From other game
+import textwrap
 from colorama import Back, Fore, Style, init
 
 ##-- Font Colors --##

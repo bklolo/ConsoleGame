@@ -4,6 +4,7 @@ import time
 import Board
 import sys
 
+'''
 SIZE = 29   # board size
 
 ##-- Globel Varibles --##
@@ -24,6 +25,7 @@ biome_or_subBiome = False ##-- To see if player is in a biome or not --##
 small = 100
 medium = 500
 large = 1000
+'''
 
 player_char = '.'
 
@@ -31,6 +33,7 @@ player_char = '.'
 # Read/decode a single keypress without waiting for the user to press Enter
 def get_key():
     return msvcrt.getch().decode('utf-8')
+
 
 # Print the game environment
 def print_board(board, player_position, player_char):
@@ -49,7 +52,6 @@ def print_board(board, player_position, player_char):
 
     sys.stdout.write(display)
     sys.stdout.flush()  # console print replaces last print (less flickering)
-
 
 
 # Move the player across rows/columns
@@ -75,10 +77,21 @@ def move_player(board, player_position, direction) -> bool:
 
     return new_row, new_col
 
+
+# Game initialization
+def initialize_game():
+        # load_title_screen() if necessary
+    # load_intro()
+    # initialize_player() etc
+    # load_firstlevel()
+    # enter game loop
+    main_game_loop()
+
+
 # The main game loop
 level1 = Board.Level_1()
 field = Board.Field()
-def update_scene():
+def main_game_loop():
     board, position = level1
     print_board(board, position, player_char)
 
@@ -92,7 +105,8 @@ def update_scene():
                 #print_board(board, position, player_char)
                 
         #time.sleep(0.1)
-
+                    
 # Check if the script is being run as the main program
 if __name__ == "__main__":
-    update_scene()
+    initialize_game()
+
