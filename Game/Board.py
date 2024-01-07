@@ -7,13 +7,39 @@ import Items
 import Player
 import WorldGenerator as wg
 
-'''
-Would like to eventually be able to traverse a 10x10 world of 20x20 levels
+''' TODO:
+- Would like to eventually be able to traverse a 10x10 world of 20x20 levels
 '''
 
 ###################################################
-SIZE = 10 # screen size (20x20)
+SIZE = 20 # screen size (20x20)
 player_start_position = (0,0)
+global traversable
+traversable = [' ', '[']
+
+bordered_level = [
+        "#"*SIZE,
+        "#"+ f"{' ':^{SIZE-2}}" + "#",
+        "#"+ f"{' ':^{SIZE-2}}" + "#",
+        "#"+ f"{' ':^{SIZE-2}}" + "#",
+        "#"+ f"{' ':^{SIZE-2}}" + "#",
+        "#"+ f"{' ':^{SIZE-2}}" + "#",
+        "#"+ f"{' ':^{SIZE-2}}" + "#",
+        "#"+ f"{' ':^{SIZE-2}}" + "#",
+        "#"+ f"{' ':^{SIZE-2}}" + "#",
+        "#"+ f"{' ':^{SIZE-2}}" + "#",
+        "#"+ f"{' ':^{SIZE-2}}" + "#",
+        "#"+ f"{' ':^{SIZE-2}}" + "#",
+        "#"+ f"{' ':^{SIZE-2}}" + "#",
+        "#"+ f"{' ':^{SIZE-2}}" + "#",
+        "#"+ f"{' ':^{SIZE-2}}" + "#",
+        "#"+ f"{' ':^{SIZE-2}}" + "#",
+        "#"+ f"{' ':^{SIZE-2}}" + "#",
+        "#"+ f"{' ':^{SIZE-2}}" + "#",
+        "#"+ f"{' ':^{SIZE-2}}" + "#",
+        "#"+ f"{' ':^{SIZE-2}}" + "#",
+        "#"*SIZE
+]
 ###################################################
 
 # Generates a random level
@@ -32,6 +58,18 @@ def generate_level():
 
     return board, player_start_position
 
+
+def print_level(level, player_player_pos=None, player_char='.'):
+    os.system('cls' if os.name == 'nt' else 'clear')
+    for y_index, row in enumerate(level):
+        for x_index, cell in enumerate(row):
+            if (y_index, x_index) == player_player_pos:
+                print(player_char, end=' ')
+            else:
+                print(cell, end=' ')
+        print()
+
+
 # A blank field
 def Field():
     # original board (player centered among blanks)
@@ -49,7 +87,7 @@ def Level_1():
         "#MMMMMMMMM         #",
         "#MMMM              #",
         "#MMMM              #",
-        "#MMMM              #",
+        "#MMMM              [",
         "#                  #",
         "#MMMM      T  T    #",
         "#MMMM     T TT     #",
@@ -65,16 +103,19 @@ def Level_1():
     level = [list(row) for row in level_layout]
     SIZE = len(level)
         # define player position
-    player_start_position = (SIZE//2, SIZE//2)
+    player_start_position = (7,10)
 
     return level, player_start_position
 
-def print_title():
-    size = os.get_terminal_size().columns
-    print("#" * (size + 4))
-    print("#" + " " * (size + 2) + "#")
-    print("#" + f"{'Game!':^{size}}#")
-    print("#" + " " * (size + 2) + "#")
-    print("#" + f"{'Press any key to start':^{size}}#")
-    print("#" + " " * (size + 2) + "#")
-    print("#" * (size + 4))
+def print_title(titlesize):
+    # ^{size} centers the text within a field of a specified width, where size is the width
+    
+    #size = os.get_terminal_size().columns
+    
+    print("#" * titlesize)
+    print("#" + " " * (titlesize-2) + "#")
+    print("#" + f"{'Game!':^{titlesize-2}}#")
+    print("#" + " " * (titlesize-2) + "#")
+    print("#" + f"{'Press any key to start':^{titlesize-2}}#")
+    print("#" + " " * (titlesize-2) + "#")
+    print("#" * (titlesize))
