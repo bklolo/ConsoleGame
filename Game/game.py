@@ -15,14 +15,15 @@ def get_key_press():
 
 
 def main_game_loop():
-    # Board
+    # Board initialization
     board.print_title(30)
     input()
     level, player_start_pos = board.Level_1()
     board.print_level(level, player_start_pos, player_char)
     player_pos = player_start_pos
-    # Character
+    # Character initialization
 
+    # Game loop
     while True:
         if msvcrt.kbhit():
             direction = get_key_press().lower()

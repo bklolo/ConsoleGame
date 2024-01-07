@@ -9,7 +9,7 @@ def move(level, current_position, direction):
     # TODO: visual feedback so player knows when a wall is hit
 
     # perform character check in each direction?
-    N, E, S, W = char_check(level, current_position)
+    N, E, S, W = char_check(level, current_position, direction)
 
     if direction == 'w':
         if row > 1 and N in board.traversable:
@@ -35,12 +35,18 @@ def move(level, current_position, direction):
     return new_row, new_col
 
 
-def char_check(level, current_position):
+def char_check(level, current_position, direction):
     row, col = current_position
     N = level[row - 1][col]
     E = level[row][col + 1]
     S = level[row + 1][col]
     W = level[row][col - 1]
+    
+    # TODO
+    # if NESW == '[' and direction == WASD:
+    #   load_scene()
+    #if E == '[' and direction == 'd':
+        # board.nextLevel()
 
     return N, E, S, W
 

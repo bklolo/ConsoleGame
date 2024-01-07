@@ -1,5 +1,5 @@
 # Python libraries
-import os
+import os   
 import sys
 import time
 # Custom classes
@@ -15,8 +15,13 @@ import WorldGenerator as wg
 SIZE = 20 # screen size (20x20)
 player_start_position = (0,0)
 global traversable
-traversable = [' ', '[']
 
+# Tile types
+traversable = [' ', '[']
+ports = ['[', ']', '=']
+        
+
+# Level template
 bordered_level = [
         "#"*SIZE,
         "#"+ f"{' ':^{SIZE-2}}" + "#",
@@ -94,11 +99,13 @@ def Level_1():
         "#MMMM              #",
         "#MMMM              #",
         "#                  #",
-        "#MMMMMMMMMMMMMMMMMM#",
-        "#RRRRRRRRRRRRRRRRRR#",
-        "#TTTTTTTTTTTTTTTTTT#",
-        "####################",
+        "#MMMMMM        MMMM#",
+        "#MMMM            MM#",
+        "#TTTT T T T       T#",
+        "####################"
     ]
+
+
     # convert strings to list of chars
     level = [list(row) for row in level_layout]
     SIZE = len(level)
@@ -106,6 +113,37 @@ def Level_1():
     player_start_position = (7,10)
 
     return level, player_start_position
+
+# Level 2
+def Level_2():
+    # static level (string format for ease of editing)
+    level_layout = [
+        "####################",
+        "# T T T T T T T T T T T T T T T T T T #",
+        "# T T T T T T T T T T T T T T T T T T #",
+        "#                                     #",
+        "# T                                   #",
+        "]                                     #",
+        "# T                                   #",
+        "#                                     #",
+        "#                                     #",
+        "#                                     #",
+        "#                                     #",
+        "#                                     #",
+        "# M M M M M                           #",
+        "# M M M M M M    M                    #",
+        "# M M M M M M M M M M M M             #",
+        "# # # # # # # # # # # # # # # # # # # #",
+    ]
+
+    # convert strings to list of chars
+    level = [list(row) for row in level_layout]
+    SIZE = len(level)
+        # define player position
+    player_start_position = (5,1)
+
+    return level, player_start_position
+    
 
 def print_title(titlesize):
     # ^{size} centers the text within a field of a specified width, where size is the width
