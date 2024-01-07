@@ -85,7 +85,7 @@ def print_title(titlesize):
     print("#" + " " * (titlesize-2) + "#")
     print("#" + f"{'Game!':^{titlesize-2}}#")
     print("#" + " " * (titlesize-2) + "#")
-    print("#" + f"{'Press any key to start':^{titlesize-2}}#")
+    print("#" + f"{'Press ENTER to start':^{titlesize-2}}#")
     print("#" + " " * (titlesize-2) + "#")
     print("#" * (titlesize))
 
