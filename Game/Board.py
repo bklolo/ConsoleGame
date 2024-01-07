@@ -13,39 +13,86 @@ import WorldGenerator as wg
 
 ###################################################
 SIZE = 20 # screen size (20x20)
-player_start_position = (0,0)
-global traversable
+global current_pos
+current_pos= (8,8)
+
+# Level vars
+level_path = 'Game\\world.txt'
+level_width = 20
+level_height = 16
+current_level = []
+current_level_index = (0,0)
 
 # Tile types
+global traversable
 traversable = [' ', '[']
 ports = ['[', ']', '=']
-        
 
-# Level template
-bordered_level = [
-        "#"*SIZE,
-        "#"+ f"{' ':^{SIZE-2}}" + "#",
-        "#"+ f"{' ':^{SIZE-2}}" + "#",
-        "#"+ f"{' ':^{SIZE-2}}" + "#",
-        "#"+ f"{' ':^{SIZE-2}}" + "#",
-        "#"+ f"{' ':^{SIZE-2}}" + "#",
-        "#"+ f"{' ':^{SIZE-2}}" + "#",
-        "#"+ f"{' ':^{SIZE-2}}" + "#",
-        "#"+ f"{' ':^{SIZE-2}}" + "#",
-        "#"+ f"{' ':^{SIZE-2}}" + "#",
-        "#"+ f"{' ':^{SIZE-2}}" + "#",
-        "#"+ f"{' ':^{SIZE-2}}" + "#",
-        "#"+ f"{' ':^{SIZE-2}}" + "#",
-        "#"+ f"{' ':^{SIZE-2}}" + "#",
-        "#"+ f"{' ':^{SIZE-2}}" + "#",
-        "#"+ f"{' ':^{SIZE-2}}" + "#",
-        "#"+ f"{' ':^{SIZE-2}}" + "#",
-        "#"+ f"{' ':^{SIZE-2}}" + "#",
-        "#"+ f"{' ':^{SIZE-2}}" + "#",
-        "#"+ f"{' ':^{SIZE-2}}" + "#",
-        "#"*SIZE
-]
-###################################################
+####################################
+############## Load ################
+####################################
+
+def select_level(current_level_index=(0,0)):
+    global current_level
+    # Read levels.txt
+    with open(level_path, 'r') as file:
+        lines = file.readlines()
+    # Get x,y of level
+    section_row, section_col = current_level_index
+    # Level row select
+    start_row = section_row * level_height
+    end_row = start_row + level_height
+    # Level col select
+    start_col = section_col * level_width
+    end_col = start_col + level_width
+
+    # Load new level data
+    level_data = []
+    for i in range(start_row, end_row):
+        if start_col < len(lines[i]):
+            row_data = lines[i][start_col:end_col].strip()
+            level_data.append(row_data)
+
+    current_level = level_data
+
+
+def nextLevel(current_level, next_level):
+    # tuple addition
+    select_level(current_level + next_level)
+
+
+####################################
+############# Print ################
+####################################
+
+def print_level(player_pos=current_pos, player_char='.'):
+    os.system('cls' if os.name == 'nt' else 'clear')
+    for y_index, row in enumerate(current_level):
+        for x_index, cell in enumerate(row):
+            if (y_index, x_index) == player_pos:
+                print(player_char, end=' ')
+            else:
+                print(cell, end=' ')
+        print()
+
+
+def print_title(titlesize):
+    # ^{size} centers the text within a field of a specified width, where size is the width
+    
+    #size = os.get_terminal_size().columns
+    
+    print("#" * titlesize)
+    print("#" + " " * (titlesize-2) + "#")
+    print("#" + f"{'Game!':^{titlesize-2}}#")
+    print("#" + " " * (titlesize-2) + "#")
+    print("#" + f"{'Press any key to start':^{titlesize-2}}#")
+    print("#" + " " * (titlesize-2) + "#")
+    print("#" * (titlesize))
+
+
+####################################
+############# Generate #############
+####################################
 
 # Generates a random level
 def generate_level():
@@ -64,18 +111,11 @@ def generate_level():
     return board, player_start_position
 
 
-def print_level(level, player_player_pos=None, player_char='.'):
-    os.system('cls' if os.name == 'nt' else 'clear')
-    for y_index, row in enumerate(level):
-        for x_index, cell in enumerate(row):
-            if (y_index, x_index) == player_player_pos:
-                print(player_char, end=' ')
-            else:
-                print(cell, end=' ')
-        print()
+####################################
+############### Misc ###############
+####################################
 
-
-# A blank field
+# A blank screen w/ player centered
 def Field():
     # original board (player centered among blanks)
     level_layout = [[' ' for _ in range(SIZE)] for _ in range(SIZE)]
@@ -83,7 +123,8 @@ def Field():
     player_start_position = (SIZE//2, SIZE//2)
     return level, player_start_position
 
-# Level 1
+
+# Level 1 test
 def Level_1():
     # static level (string format for ease of editing)
     level_layout = [
@@ -114,7 +155,8 @@ def Level_1():
 
     return level, player_start_position
 
-# Level 2
+
+# Level 2 test
 def Level_2():
     # static level (string format for ease of editing)
     level_layout = [
@@ -144,16 +186,3 @@ def Level_2():
 
     return level, player_start_position
     
-
-def print_title(titlesize):
-    # ^{size} centers the text within a field of a specified width, where size is the width
-    
-    #size = os.get_terminal_size().columns
-    
-    print("#" * titlesize)
-    print("#" + " " * (titlesize-2) + "#")
-    print("#" + f"{'Game!':^{titlesize-2}}#")
-    print("#" + " " * (titlesize-2) + "#")
-    print("#" + f"{'Press any key to start':^{titlesize-2}}#")
-    print("#" + " " * (titlesize-2) + "#")
-    print("#" * (titlesize))

@@ -2,12 +2,13 @@
 import os
 import sys
 import msvcrt
+import time
 # Custom classes
 import board
 import PlayerController as player
 
-
-player_char = '.'
+# TODO:
+# movement issue: character runs too quickly; time.sleep(); buffered input
 
 
 def get_key_press():
@@ -18,9 +19,10 @@ def main_game_loop():
     # Board initialization
     board.print_title(30)
     input()
-    level, player_start_pos = board.Level_1()
-    board.print_level(level, player_start_pos, player_char)
-    player_pos = player_start_pos
+    #level, player_start_pos = board.Level_1()
+    board.select_level()
+    board.print_level()
+    #player_pos = player_start_pos
     # Character initialization
 
     # Game loop
@@ -28,8 +30,9 @@ def main_game_loop():
         if msvcrt.kbhit():
             direction = get_key_press().lower()
             if direction in ['w', 'a', 's', 'd']:
-                player_pos = player.move(level, player_pos, direction)
-                board.print_level(level, player_pos, player_char)
+                player.move(direction)
+                board.print_level()
+            time.sleep(0.1)
 
 
 if __name__ == "__main__":

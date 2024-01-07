@@ -1,10 +1,11 @@
 import board
 
-def move(level, current_position, direction):
+# Control player movement
+def move(direction, level=board.current_level, current_position=board.current_pos):
     row, col = current_position
     new_row, new_col = row, col
-    y_pos = len(level)
-    x_pos = len(level[0])
+    y_pos = len(board.current_level)
+    x_pos = len(board.current_level)
 
     # TODO: visual feedback so player knows when a wall is hit
 
@@ -34,7 +35,7 @@ def move(level, current_position, direction):
 
     return new_row, new_col
 
-
+# Check for chars in player direction
 def char_check(level, current_position, direction):
     row, col = current_position
     N = level[row - 1][col]
@@ -43,10 +44,16 @@ def char_check(level, current_position, direction):
     W = level[row][col - 1]
     
     # TODO
-    # if NESW == '[' and direction == WASD:
-    #   load_scene()
-    #if E == '[' and direction == 'd':
-        # board.nextLevel()
+    if N == '=' and direction == 'w':
+        # board.next_level(board_x, board_y-1)
+        pass
+    if E == '[' and direction == 'd':
+        board.increment_col()
+        pass
+    if S == '=' and direction == 's':
+        pass
+    if W == ']' and direction == 'a':
+        pass
 
     return N, E, S, W
 

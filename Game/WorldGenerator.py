@@ -19,19 +19,19 @@ class WorldGenerator:
 
 
     # Clustering algo
-    def cluster_mountains(self):
+    def cluster_characters(self, thing):
         for i in range(self.size):
             for j in range(self.size):
-                if self.world[i][j] == 'M' and random.random() < 0.3:  # Adjust the probability as needed
-                    self.cluster_neighbors(i, j)
+                if self.world[i][j] == thing and random.random() < 0.1:  # Adjust the probability as needed
+                    self.cluster_neighbors(i, j, thing)
 
 
     # Check 3x3 around cell for M
-    def cluster_neighbors(self, i, j):
+    def cluster_neighbors(self, i, j, thing):
         for x in range(i-1, i+2):
             for y in range(j-1, j+2):
                 if 0 <= x < self.size and 0 <= y < self.size and self.world[x][y] == ' ':
-                    self.world[x][y] = 'M'
+                    self.world[x][y] = thing
 
 
     # Removes most stray characters in each row
@@ -51,13 +51,13 @@ class WorldGenerator:
     # Clustering algorithm that makes chars extra scarce (maybe good for flora/fauna spawning)
     def cluster_plants(self, i, j):
             count_m = sum(1 for x in range(i - 1, i + 2) for y in range(j - 1, j + 2)
-                        if 0 <= x < self.size and 0 <= y < self.size and self.world[x][y] == 'M')
+                        if (0 <= x < self.size) and (0 <= y < self.size) and (self.world[x][y] == 'M'))
 
             count_t = sum(1 for x in range(i - 1, i + 2) for y in range(j - 1, j + 2)
-                        if 0 <= x < self.size and 0 <= y < self.size and self.world[x][y] == 'T')
+                        if (0 <= x < self.size) and (0 <= y < self.size) and (self.world[x][y] == 'T'))
 
             count_sp = sum(1 for x in range(i - 1, i + 2) for y in range(j - 1, j + 2)
-                        if 0 <= x < self.size and 0 <= y < self.size and self.world[x][y] == ' ')
+                        if (0 <= x < self.size) and (0 <= y < self.size) and (self.world[x][y] == ' '))
 
             if count_m > count_t and count_m > count_sp:
                 self.world[i][j] = 'M'
@@ -75,7 +75,7 @@ class WorldGenerator:
 '''
 ### Example usage ###
 # Prints level after each algorithm
-SIZE = 20
+SIZE = 100
 CHARS = ['M', ' ', 'T']
 PROBABILITIES = [0.6, 0.02, 0]
 
@@ -83,12 +83,17 @@ world_generator = WorldGenerator(SIZE, CHARS, PROBABILITIES)
 world_generator.print_world()
 
 # Cluster mountains
-world_generator.cluster_mountains()
-print("\nWorld with Clustered Mountains:")
+world_generator.cluster_characters('M')
+print("\nWorld with Clustered M:")
 world_generator.print_world()
 
+# Cluster mountains
+#world_generator.cluster_characters('T')
+#print("\nWorld with Clustered T:")
+#world_generator.print_world()
+
 # Remove non-cluster characters
-world_generator.remove_strays()
-print("\nWorld with remove_strays:")
-world_generator.print_world()
+#world_generator.remove_strays()
+#print("\nWorld with remove_strays:")
+#world_generator.print_world()
 '''
