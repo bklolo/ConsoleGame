@@ -5,7 +5,7 @@
 #MMMM              #T                 #
 #MMMM              [                  #
 #                  #T                 #
-#         .TT T    #                  #
+#          TT T    #                  #
 #         TTTT     #                  #
 #           T      #                  #
 #                  #                  #

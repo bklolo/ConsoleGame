@@ -14,7 +14,7 @@ import WorldGenerator as wg
 ###################################################
 SIZE = 20 # screen size (20x20)
 global current_pos
-current_pos= (8,8)
+current_pos= (7,10)
 
 # Level vars
 level_path = 'Game\\world.txt'
@@ -65,11 +65,11 @@ def nextLevel(current_level, next_level):
 ############# Print ################
 ####################################
 
-def print_level(player_pos=current_pos, player_char='.'):
+def print_level(player_char='.'):
     os.system('cls' if os.name == 'nt' else 'clear')
     for y_index, row in enumerate(current_level):
         for x_index, cell in enumerate(row):
-            if (y_index, x_index) == player_pos:
+            if (y_index, x_index) == current_pos:
                 print(player_char, end=' ')
             else:
                 print(cell, end=' ')
