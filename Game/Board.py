@@ -17,7 +17,7 @@ class Board:
         self.current_level = []
         self.current_pos = initial_position
         self.current_level_index = (0, 0)
-        self.traversable = [' ', '[']
+        self.traversable = [' ']
         self.ports = ['[', ']', '=']
 
         self.select_level()
@@ -42,23 +42,27 @@ class Board:
                 row_data = lines[i][start_col:end_col].strip()
                 level_data.append(row_data)
 
-        self.current_level = level_data
-
-        # Your existing select_level logic here
+        self.current_level = level_data         # convert level to list of lists of chars here?
 
     def next_level(self, next_level_index):
 
-        # Tuple addition using unpacking
-        current_level_index = (self.current_level_index[0] + next_level_index[0], self.current_level_index[1] + next_level_index[1])
+        # Tuple addition 
+        new_level_index = (self.current_level_index[0] + next_level_index[0], self.current_level_index[1] + next_level_index[1])
 
-        # TODO: set player position
-        if current_level_index == (0, 0):
+        # TODO: 
+        # set player position
+        # what if multiple ways to get to level?
+        if new_level_index == (0, 0):
             pass
-        elif current_level_index == (0, 1):
-            self.current_pos = (self.current_pos[0], abs(self.current_pos[1] - self.level_width))
+        elif new_level_index == (0, 1):
+            self.current_level_index = new_level_index
+            self.current_pos = (self.current_pos[0], abs(self.current_pos[1] - self.level_width)-1)
+        elif new_level_index == (1,0):
+            pass
+        elif new_level_index == (1,1):
+            pass
 
         self.select_level()
-        # Your existing next_level logic here
 
     def print_level(self):
         os.system('cls' if os.name == 'nt' else 'clear')
@@ -68,7 +72,7 @@ class Board:
                     print(self.player_char, end=' ')
                 else:
                     print(cell, end=' ')
-            print()        # Your existing print_level logic here
+            print()
 
     def print_title(self, titlesize):
         # ^{size} centers the text within a field of a specified width, where size is the width
@@ -83,7 +87,6 @@ class Board:
     
     
     def print_player_pos(self):
-        # Your existing print_player_pos logic heredef print_player_pos():
         print(f"Player position: {self.current_pos}")
 
 

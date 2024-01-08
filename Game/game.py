@@ -18,7 +18,9 @@ def get_key_press():
 def main_game_loop():
     # Board initialization
     initial_position = (5,18)
-    board_instance = Board('Game\\world.txt', 20, 16, initial_position)
+    board_width = 20
+    board_height = 16
+    board_instance = Board('Game\\world.txt', board_width, board_height, initial_position)
     player_controller = PlayerController(board_instance)
     # Print title
     board_instance.print_title(30)
