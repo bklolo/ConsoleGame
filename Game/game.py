@@ -20,7 +20,7 @@ def main_game_loop():
     initial_position = (5,18)
     board_width = 20
     board_height = 16
-    board_instance = Board('Game\\world.txt', board_width, board_height, initial_position)
+    board_instance = Board('C:\\Users\\bkl\\Desktop\\Projects\\_FunProjects\\ConsoleGame\\Game\\world.txt', board_width, board_height, initial_position)
     player_controller = PlayerController(board_instance)
     # Print title
     board_instance.print_title(30)
@@ -39,7 +39,7 @@ def main_game_loop():
                 player_controller.move(direction)
                 board_instance.print_level()
                 board_instance.print_player_pos()
-            time.sleep(0.1)
+            #time.sleep(0.1)
 
 
 if __name__ == "__main__":

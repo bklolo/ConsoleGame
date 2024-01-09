@@ -52,15 +52,18 @@ class Board:
         # TODO: 
         # set player position
         # what if multiple ways to get to level?
-        if new_level_index == (0, 0):
-            pass
-        elif new_level_index == (0, 1):
-            self.current_level_index = new_level_index
-            self.current_pos = (self.current_pos[0], abs(self.current_pos[1] - self.level_width)-1)
-        elif new_level_index == (1,0):
-            pass
-        elif new_level_index == (1,1):
-            pass
+        self.current_level_index = new_level_index
+        wall_thk = 3
+        index_offset = 1
+        # NESW
+        if next_level_index == (-1, 0):
+            self.current_pos = (abs(self.current_pos[0] + self.level_height) - wall_thk, self.current_pos[1])
+        elif next_level_index == (0, 1):
+            self.current_pos = (self.current_pos[0], abs(self.current_pos[1] - self.level_width) - index_offset)
+        elif next_level_index == (1,0):
+            self.current_pos = (abs(self.current_pos[0] - self.level_height) - index_offset, self.current_pos[1])
+        elif next_level_index == (0,-1):
+            self.current_pos = (self.current_pos[0], abs(self.current_pos[0] - self.level_width) + wall_thk)
 
         self.select_level()
 
@@ -74,16 +77,16 @@ class Board:
                     print(cell, end=' ')
             print()
 
-    def print_title(self, titlesize):
+    def print_title(self, title_width):
         # ^{size} centers the text within a field of a specified width, where size is the width
         
-        print("#" * titlesize)
-        print("#" + " " * (titlesize-2) + "#")
-        print("#" + f"{'Game!':^{titlesize-2}}#")
-        print("#" + " " * (titlesize-2) + "#")
-        print("#" + f"{'Press ENTER to start':^{titlesize-2}}#")
-        print("#" + " " * (titlesize-2) + "#")
-        print("#" * (titlesize))
+        print("#" * title_width)
+        print("#" + " " * (title_width-2) + "#")
+        print("#" + f"{'Game!':^{title_width-2}}#")
+        print("#" + " " * (title_width-2) + "#")
+        print("#" + f"{'Press ENTER to start':^{title_width-2}}#")
+        print("#" + " " * (title_width-2) + "#")
+        print("#" * (title_width))
     
     
     def print_player_pos(self):

@@ -34,7 +34,7 @@ def main():
     length = console_width - 1
     space = '.'
     track = [space] * length
-    toon = '@#  .0.   $%'
+    toon = '$'
     track.insert(0, toon)
 
     try:

@@ -50,15 +50,22 @@ class PlayerController:
 
     def check_transport(self, N, E, S, W, direction):
         # Check chars in NESW for door/gate/etc chars; if walking in that dir, next level
+        travel_north = (-1,0)
+        travel_east = (0,1)
+        travel_south = (1,0)
+        travel_west = (0,-1)
         transport = False
         if N == '=' and direction == 'w':
-            pass
+            transport = True
+            self.board_instance.next_level(travel_north)
         if E == '[' and direction == 'd':
         # Pass the xy to the board for tuple summation
             transport = True
-            self.board_instance.next_level((0, 1))
+            self.board_instance.next_level(travel_east)
         if S == '=' and direction == 's':
-            pass
+            transport = True
+            self.board_instance.next_level(travel_south)
         if W == ']' and direction == 'a':
-            pass
+            transport = True
+            self.board_instance.next_level(travel_west)
         return transport
