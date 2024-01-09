@@ -1,10 +1,7 @@
-<<<<<<< HEAD
-# ignore all within extra
-=======
-# ignore all within extra (deleted but can still use)
->>>>>>> 99bdd52740e7882a8c3d21eea655527ced4056fb
-extra/
 
+# ignore all within extra
+extra/
+*.pyc
 # Below is a copy/paste of a list of typical Python files to ignore
 
 
