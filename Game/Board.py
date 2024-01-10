@@ -2,26 +2,57 @@
 import os   
 import sys
 import time
+import random
 # Custom classes
 import Items
-import Player
+from Classes import *
 import WorldGenerator as wg
 
 
 class Board:
-    def __init__(self, level_path, level_width, level_height, initial_position):
-        self.player_char = '.'
+    def __init__(self, level_path, level_width, level_height, player, enemy):
+        #self.player_char = player.symbol
         self.level_path = level_path
         self.level_width = level_width
         self.level_height = level_height
         self.current_level = []
-        self.current_pos = initial_position
         self.current_level_index = (0, 0)
         self.traversable = [' ']
         self.ports = ['[', ']', '=']
+        # Player
+        self.player = player
+        # Enemy
+        self.enemy = enemy
+        self.enemy_last_move_time = 0
 
         self.select_level()
+############################################################################### Enemy START
+    def update_enemy(self):
+            enemy_y, enemy_x = self.enemy.position
+            player_y, player_x = self.player.position
 
+            # Determine the direction of movement
+            y_direction = (enemy_y < player_y) - (enemy_y > player_y)
+            x_direction = (enemy_x < player_x) - (enemy_x > player_x)
+
+            # Check if the cooldown period has passed
+            current_time = time.time()
+            if current_time - self.enemy_last_move_time >= self.enemy.cooldown:
+                # Update the enemy's position
+                enemy_y += y_direction
+                enemy_x += x_direction
+                self.enemy.position = (enemy_y, enemy_x)
+
+                # Update the last move time
+                self.enemy_last_move_time = current_time
+
+                # Check if the enemy is adjacent to the player
+                if abs(enemy_y - player_y) + abs(enemy_x - player_x) == 1:
+                    self.encounter()
+    
+    def encounter(self):
+        pass
+################################################################################# Enemy END
     def select_level(self):
         # Read levels.txt
         with open(self.level_path, 'r') as file:
@@ -49,21 +80,18 @@ class Board:
         # Tuple addition 
         new_level_index = (self.current_level_index[0] + next_level_index[0], self.current_level_index[1] + next_level_index[1])
 
-        # TODO: 
-        # set player position
-        # what if multiple ways to get to level?
         self.current_level_index = new_level_index
         wall_thk = 3
         index_offset = 1
         # NESW
         if next_level_index == (-1, 0):
-            self.current_pos = (abs(self.current_pos[0] + self.level_height) - wall_thk, self.current_pos[1])
+            self.player.position = (abs(self.player.position[0] + self.level_height) - wall_thk, self.player.position[1])
         elif next_level_index == (0, 1):
-            self.current_pos = (self.current_pos[0], abs(self.current_pos[1] - self.level_width) - index_offset)
+            self.player.position = (self.player.position[0], abs(self.player.position[1] - self.level_width) - index_offset)
         elif next_level_index == (1,0):
-            self.current_pos = (abs(self.current_pos[0] - self.level_height) - index_offset, self.current_pos[1])
+            self.player.position = (abs(self.player.position[0] - self.level_height) - index_offset, self.player.position[1])
         elif next_level_index == (0,-1):
-            self.current_pos = (self.current_pos[0], abs(self.current_pos[0] - self.level_width) + wall_thk)
+            self.player.position = (self.player.position[0], abs(self.player.position[0] - self.level_width) + wall_thk)
 
         self.select_level()
 
@@ -71,8 +99,10 @@ class Board:
         os.system('cls' if os.name == 'nt' else 'clear')
         for y_index, row in enumerate(self.current_level):
             for x_index, cell in enumerate(row):
-                if (y_index, x_index) == self.current_pos:
-                    print(self.player_char, end=' ')
+                if (y_index, x_index) == self.player.position:
+                    print(self.player.symbol, end=' ')
+                elif (y_index, x_index) == self.enemy.position:
+                    print(self.enemy.symbol, end=' ')
                 else:
                     print(cell, end=' ')
             print()
@@ -90,7 +120,7 @@ class Board:
     
     
     def print_player_pos(self):
-        print(f"Player position: {self.current_pos}")
+        print(f"Player position: {self.player.position}")
 
 
     ####################################

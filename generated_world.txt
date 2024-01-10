@@ -1,0 +1,66 @@
+##################################################################
+#   TM  TMMM        T##TT     MMMM TTTMMMTM##M     MMMTMMMMMTT   #
+#       TTMT        T##TTT    MMMMMTTMMMMMM##MM    MTMMMMTMMTT   #
+#        MMM        T##MT      MMM TTMMMMMM##MM      MMMM  TTT   #
+#            TMTT    ##              MMMMMM##MM                  #
+#           MTTTTT MM##M                MMM##MM                  #
+#          TTTTTTTMMM##M                 MM##MTM                 #
+#    TTMT    MTTTTMMM##M                  M##MMM                 #
+#    TTTTT TTTTT TMMM##M            MTTT   ##MMM                 #
+#    TTTT TTTT     MM##M            TTTT   ##                   M#
+#         MTTT    MTM##MM   MMM      TMT   ##                    #
+#         TTT     MMM##MM   TMMMT          ##                   T#
+#M         MMM MMMMTM##MMMMMMMMMM  TMMTMM  ##      MMM           #
+#   MMM   MMMMTMMM TM##  MMMMMMMM  MMMMMM  ##     MMMMMM         #
+#   MMMM MMMMT MMM   ##  MMMM MMM  MMMMMM  ##     MMMMMMM    MTM #
+# MMMMMMM MMM      MT##  MMM               ##     MTMMMMM   MMMMM#
+#MMMMMMMM           T##TT                  ##MMM  TTT MMM   MMMMM#
+# MMTMMMMT          T##TT        TTT       ##MMM            MMMMM#
+# MMMMM    TM       T##TT        TTTM      ##MMM             MMMM#
+#  MMMMMMM           ##          TTT       ##  MMMM              #
+#T  MMMMMM           ##                    ##   MMM    TM        #
+##################################################################
+##################################################################
+#   TMMMMM           ##     MT             ##   MMM             T#
+#              TTTTT ##                    ##                    #
+#  MMM          TTTTT##                    ##           MMM      #
+# MMMM          TMTTT##          MMT       ##           MMM      #
+# MMMM   MMM         ##MMMM      MMM       ##           MMM      #
+# MMM    TMMM        ##MMMTTTM   MMM       ## MMT               T#
+#        MMMMM       ##MMMTTTT             ## MMM    TTT         #
+#         MMMM       ##   TTTT        MMMM ## MMM   TTTT         #
+#         TMMMT    TT##MM            MMMMMT##      TTTTT         #
+#MM          MMM   MM##MMM           MMMMTM##TMT  MTTMTMMM      M#
+#MM MMMM    MMMM   MM##MMMM          MMMMMM##MM    TTT MMMTT     #
+#MMMMMM MMM  MMM     ##MMM  MM         MMMM##MM        MMTTT     #
+#   MMM MMT          ##MTM        MMM    MM##MM          TTMMT   #
+#       MMT          ##TTT       MMMM   MMM##MM         TTT      #
+#                    ##          MMMM   MMM##MM         TTTT     #
+#                    ##          MMMT   MMM##           TTT      #
+#                    ##       MMMM      MMM##                    #
+#                    ##       MMM          ## MT                 #
+#                    ##       MMM          ##TM     TTT          #
+#                    ##            TMT     ##       TTTT         #
+##################################################################
+##################################################################
+#T     TT MMM        ##                    ##       TTTT         #
+#         MMM        ##          MMM       ##     TMTTTT         #
+#         MMM  TMT   ##          MMM       ##     TTTTT         M#
+#TTMM                ##          TMM       ##     TTTT           #
+#TTMM                ##MMM                 ##  MTMTTTT           #
+#TMMM     TM         ##MMM                 ##  MMMMTM    MT      #
+#        MMMT        ##MMM    TTT          ## MMMMMTTT         MM#
+#        MMM       TT##TT   MMMTM          ## TMMMMTTT     MTT   #
+#        TMT        M##TM   TMMMM          ## TMM         MMMM   #
+#                   M##MM   MMMMM          ##     MMM     MMMM   #
+#                   M##MMT  MMM            ##   TTMMMM    MTM   T#
+#                   M##MMM                 ##     MMMMM          #
+#                   M##MM                  ##      MTMTM         #
+#T                  M##MTM                 ##    MMMMMM          #
+#  TTTT          MMMM##MM                  ##     MMMMM MMM      #
+#  TTTT         MTMM ##                    ##     MMM   MMM      #
+#  TTTT         MMMMT##                    ##MT     TT  MMM      #
+#              TMMM  ##            TT      ##                    #
+#                    ##        TT         M##T                   #
+#                    ##                    ##                    #
+##################################################################

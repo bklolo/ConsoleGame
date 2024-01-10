@@ -92,7 +92,7 @@ class WorldGenerator:
                 file.write("#" * (self.size + 6) + '\n')
             else:
                 file.write("#" * (20 + 6) + '\n')
-
+'''
 ### Example usage ###
 # Prints level after each algorithm
 SIZE = 60
@@ -122,3 +122,4 @@ world_generator.remove_strays()
 #world_generator.print_world()
 #world_generator.print_world()
 world_generator.save_world_to_file()
+'''
