@@ -8,6 +8,16 @@ class Character():
     def get_stamina(self):
         return self.stamina
 
+
+class Player(Character):
+    def __init__(self, health, stamina, mana):
+        super().__init__(health,stamina)
+        self.health = health
+        self.stamina = stamina
+        self.mana = mana
+        self.inv = []
+
+
 class Enemy(Character):
     def __init__(self, health, stamina, aggro):
         super().__init__(health, stamina)
@@ -18,6 +28,7 @@ class Enemy(Character):
         return self.aggro
     def reduce_agrro(self):
         return self.aggro - 10
+
 
 class Goblin(Enemy):
     def __init__(self, health, aggro, greed):

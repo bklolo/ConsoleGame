@@ -16,14 +16,20 @@ def get_key_press():
 
 
 def main_game_loop():
-    # Board initialization
-    initial_position = (5,18)
+    # Board
     board_width = 20
-    board_height = 16
-    board_instance = Board('C:\\Users\\bkl\\Desktop\\Projects\\_FunProjects\\ConsoleGame\\Game\\world.txt', board_width, board_height, initial_position)
+    board_height = 20
+    game_path = 'C:\\Users\\bkl\\Desktop\\Projects\\_FunProjects\\ConsoleGame\\Game\\world.txt'
+    generated_path = 'C:\\Users\\bkl\\Desktop\\Projects\\_FunProjects\\ConsoleGame\\generated_world.txt'
+    paths = [game_path, generated_path]
+    initial_position = (4,5)
+    board_instance = Board(paths[0], board_width, board_height, initial_position)
+    
+    # Player
     player_controller = PlayerController(board_instance)
+    
     # Print title
-    board_instance.print_title(30)
+    board_instance.print_title(60)
     # Wait for user ENTER
     input()
     # Select first level
@@ -40,6 +46,8 @@ def main_game_loop():
                 board_instance.print_level()
                 board_instance.print_player_pos()
             #time.sleep(0.1)
+        # else:
+        #   update_screen() -> enemy_location(), aerial_attacks(), animations()
 
 
 if __name__ == "__main__":
