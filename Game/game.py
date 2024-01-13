@@ -49,9 +49,9 @@ def main_game_loop():
                 board_instance.print_level()
                 board_instance.print_player_pos()
         else:
-            #board_instance.print_level()
+            board_instance.print_level()
             board_instance.update_enemy()
-
+            time.sleep(0.2)
 
 if __name__ == "__main__":
     main_game_loop()

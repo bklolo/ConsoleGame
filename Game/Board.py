@@ -6,7 +6,7 @@ import random
 # Custom classes
 import Items
 from Classes import *
-import WorldGenerator as wg
+import tools.WorldGenerator as wg
 
 
 class Board:

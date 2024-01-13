@@ -11,7 +11,9 @@ class WorldGenerator:
 
 
     def generate_world(self):
-        return [[self.generate_tile() for _ in range(self.size)] for _ in range(self.size)]
+        return [
+            [self.generate_tile() for _ in range(self.size)] 
+            for _ in range(self.size)]
 
 
     def generate_tile(self):
@@ -92,34 +94,38 @@ class WorldGenerator:
                 file.write("#" * (self.size + 6) + '\n')
             else:
                 file.write("#" * (20 + 6) + '\n')
+
 '''
 ### Example usage ###
 # Prints level after each algorithm
 SIZE = 60
 CHARS = ['M', ' ', 'T']
-PROBABILITIES = [0.6, 0.02, 0]
+PROBABILITIES = [0.06, 0.02, 0.2]
 
 world_generator = WorldGenerator(SIZE, CHARS, PROBABILITIES)
-
-# First print
+for row in world_generator.world:
+    for char in row:
+        print(char, end=" ")
+#print("first print\n\n\n")
 #world_generator.print_world()
-
-# Cluster mountains
-world_generator.cluster_characters('M')
-world_generator.cluster_characters('M')
-world_generator.cluster_characters('M')
+## First print
+##world_generator.print_world()
+#
+## Cluster mountains
+#world_generator.cluster_characters('M')
+#world_generator.cluster_characters('M')
 #print("\n\nWorld with Clustered M:\n\n")
 #world_generator.print_world()
-
-# Cluster mountains
-world_generator.cluster_characters('T')
+#
+## Cluster mountains
+#world_generator.cluster_characters('T')
 #print("\nWorld with Clustered T:")
 #world_generator.print_world()
-
-# Remove non-cluster characters
-world_generator.remove_strays()
+#
+## Remove non-cluster characters
+#world_generator.remove_strays()
 #print("\n\nWorld with remove_strays:\n\n")
 #world_generator.print_world()
-#world_generator.print_world()
-world_generator.save_world_to_file()
+##world_generator.print_world()
+##world_generator.save_world_to_file()
 '''
