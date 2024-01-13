@@ -1,18 +1,20 @@
 import pygame
 from pygame.locals import QUIT, KEYDOWN, K_ESCAPE
 import tools.WorldGenerator as wg
+from pygame_PlayerController import pygame_PlayerController
+
 
 # Pygame init
 pygame.init()
 
 # Screen init
-screen_width = 800
-screen_height = 600
+screen_width = 1080
+screen_height = 720
 screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption("Pygame")
 
 # Generate world
-SIZE = 16 * 4 # multiple of tile width
+SIZE = 16 * 5 # multiple of tile width
 CHARS = ['M', ' ', 'T']
 PROBABILITIES = [0.06, 0.02, 0.2,3]
 world_generator = wg.WorldGenerator(SIZE, CHARS, PROBABILITIES)
@@ -23,8 +25,13 @@ world_generator.cluster_characters(' ')
 world_generator.remove_strays()
 # Cluster the neighboring cells around desired point
 world_generator.cluster_plants(SIZE//2,SIZE//2)
-# The generated world list, as it is
+# The generated world list, as it isddd
 world = world_generator.world
+
+
+#Setup character 
+player_images =[pygame.image.load(f"character-slices/tile_{i}.png") for i in range(0,7)]
+p = pygame_PlayerController(player_images,(0,0), 5)
 
 # Load tiles (total of 100)
 tile_images = [pygame.image.load(f"output_tiles/tile_{i}.png") for i in range(0, 101)]
@@ -52,7 +59,7 @@ tilemap_data = [
 num_cols = len(tilemap_data[0])  # width
 num_rows = len(tilemap_data)     # height
 
-# Frame rate
+# Frame rated
 clock = pygame.time.Clock()
 
 white = (255,255,255)
@@ -61,16 +68,12 @@ black = (0,0,0)
 # Game loop
 playing = True
 while playing:
-    for event in pygame.event.get():
-        if event.type == QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):
-            playing = False
-
     # Update game logic here
 
     # Clear the screen
     screen.fill(black)
 
-    # Draw tiles on the screen based on tilemap_data
+    #Draw tiles on the screen based on tilemap_data
     for row_index, row in enumerate(tilemap_data):
         for col_index, tile_index in enumerate(row):
             # Get the tile image corresponding to the tile index
@@ -80,6 +83,9 @@ while playing:
             y = row_index * tile_size
             # Blit(draw) the tile onto the screen
             screen.blit(tile, (x, y))
+
+    p.update()
+    p.draw(screen)
 
     # Update the surface/display (OpenGL support?)
     pygame.display.flip()
