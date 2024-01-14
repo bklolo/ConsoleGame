@@ -1,7 +1,9 @@
 import pygame
 from pygame.locals import QUIT, KEYDOWN, K_ESCAPE
-import tools.WorldGenerator as wg
+import tools.SceneGenerator as SG
 from pygame_PlayerController import pygame_PlayerController
+from LevelManager import World
+import sys
 
 #
 previousFrameTicks = 0
@@ -18,20 +20,37 @@ screen = pygame.display.set_mode((screen_width, screen_height),pygame.RESIZABLE)
 pygame.display.set_caption("Pygame")
 
 # Generate world
+###############################################################################################################
 SIZE = 16 * 5 # multiple of tile width
-CHARS = ['M', ' ', 'T']
-PROBABILITIES = [0.06, 0.02, 0.2,3]
-world_generator = wg.WorldGenerator(SIZE, CHARS, PROBABILITIES)
-world_generator.cluster_characters('M') # cluster three times (can use other funcs for more customization)
-world_generator.cluster_characters('T')
-world_generator.cluster_characters(' ')
-# Remove strays
-world_generator.remove_strays()
-# Cluster the neighboring cells around desired point
-world_generator.cluster_plants(SIZE//2,SIZE//2)
-# The generated world list, as it isddd
-world = world_generator.world
 
+#scene_generator = SG.SceneGenerator(screen_width, screen_height, CHARS, PROBABILITIES)
+#scene_generator.cluster_characters('M') # cluster three times (can use other funcs for more customization)
+#scene_generator.cluster_characters('T')
+#scene_generator.cluster_characters(' ')
+## Remove strays
+#scene_generator.remove_strays()
+# Cluster the neighboring cells around desired point
+#scene_generator.cluster_plants(SIZE//2,SIZE//2)
+###############################################################################################################
+# The generated world list, as it isddd
+
+world = World(screen_width, screen_height)
+world.generate_scene(0,0)
+scene = world.get_scene(0,0)
+'''
+# Example usage:
+screen_width = 10
+screen_height = 5
+grid = 4
+world = World(3, 3) # world grid
+world.generate_scene(0,0)
+world.generate_scene(2,2)
+
+start_level = world.get_scene(0,0)
+level1 = world.get_scene(2,2)
+# Access contents of a scene
+print(world.get_world())
+'''
 
 #Setup character 
 player_images =[pygame.image.load(f"character-slices/tile_{i}.png") for i in range(0,8)]
@@ -55,9 +74,9 @@ char_to_tile = {' ': tile_images.index(field),
                 }
 
 # Convert chats to tiles
-tilemap_data = [
-    [char_to_tile[char] for char in row] for row in world
-]
+tilemap_data = [[char_to_tile[char] 
+                 for char in row] 
+                 for row in scene]
 
 # Get the number of tiles in each row and column
 num_cols = len(tilemap_data[0])  # width
@@ -89,7 +108,7 @@ while playing:
             y = row_index * tile_size
             # Blit(draw) the tile onto the screen
             screen.blit(tile, (x, y))
-
+ 
     p.update()
     p.draw(screen, deltaTime)
 
