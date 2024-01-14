@@ -8,15 +8,21 @@ class pygame_PlayerController:
         self.position = position
         self.speed = speed
         self.currentSpeed = 0
-        self.direction = 0,0
         
-        #animation
+        self.direction = 0,0
+        self.isPressed_left = False
+        self.isPressed_right = False
+        self.isPressed_up = False
+        self.isPressed_down = False
+
+        #Sprite sheet splits
         self.spriteSheet = spriteSheet
         self.spriteSheet_down = [spriteSheet[0],spriteSheet[1]]
         self.spriteSheet_left = [spriteSheet[2],spriteSheet[3]]
         self.spriteSheet_up = [spriteSheet[4], spriteSheet[5]]
         self.spriteSheet_right = [spriteSheet[6],spriteSheet[7]]
 
+        #Animation 
         self.animationSpeed = 250; 
         self.timePassed = 0
         self.currentframe = spriteSheet[0]
@@ -60,13 +66,17 @@ class pygame_PlayerController:
             else:
                 screen.blit(self.spriteSheet_down[0], self.position)
         
-        
     def Move(self):
+        #Check if any of the movement keys are currently down. If they are move, else don't. 
+        if self.isPressed_left or self.isPressed_right or self.isPressed_up or self.isPressed_down:
+            self.currentSpeed = self.speed
+        else:
+            self.currentSpeed = 0
+
+        #Move character by current speed amount TODO:Delta time?
         x,y = self.position
-        
         x = self.clamp(x + (self.currentSpeed * self.direction[0]), 0,1050)         
         y = self.clamp(y + (self.currentSpeed * self.direction[1]), 0, 700)
-        
         self.position = x,y       
                     
     def GetInput(self):
@@ -76,38 +86,51 @@ class pygame_PlayerController:
                 main = False
             
             if event.type == pygame.KEYDOWN:
-                keys = pygame.key.get_pressed()
                 x,y = self.direction
                 
                 if event.key == pygame.K_LEFT or event.key == ord('a'):
-                    x = -1
-                    y = 0
-                    self.currentSpeed = self.speed
+                    x = -1;y = 0
+                    self.isPressed_left = True
                 if event.key == pygame.K_RIGHT or event.key == ord('d'):
-                    x = 1
-                    y = 0
-                    self.currentSpeed = self.speed
+                    x = 1;y = 0
+                    self.isPressed_right =True
                 if event.key == pygame.K_UP or event.key == ord('w'):
-                    x = 0
-                    y = -1
-                    self.currentSpeed = self.speed
+                    x = 0;y = -1
+                    self.isPressed_up =True
                 if event.key == pygame.K_DOWN or event.key == ord('s'):
-                    x = 0
-                    y = 1
-                    self.currentSpeed = self.speed
+                    x = 0;y = 1
+                    self.isPressed_down =True
                 self.direction = x,y
 
             if event.type == pygame.KEYUP:
-                keys = pygame.key.get_pressed()
                 if event.key == pygame.K_LEFT or event.key == ord('a'):
-                    self.currentSpeed = 0
+                   self.isPressed_left = False 
+                   self.checkDirection()
                 if event.key == pygame.K_RIGHT or event.key == ord('d'):
-                    self.currentSpeed = 0
+                    self.isPressed_right = False
+                    self.checkDirection()
                 if event.key == pygame.K_UP or event.key == ord('w'):
-                    self.currentSpeed = 0
+                    self.isPressed_up = False
+                    self.checkDirection()
                 if event.key == pygame.K_DOWN or event.key == ord('s'):
-                   self.currentSpeed = 0
+                   self.isPressed_down = False
+                   self.checkDirection()
     
+    #Only use when a direction key is released
+    #checks to see if any other direction keys are currently pressed down
+    #if they are the character is reoriented to that direction
+    def checkDirection(self):
+        x,y = self.direction
+        if self.isPressed_left:
+            x = -1;y = 0
+        elif self.isPressed_right:
+            x = 1;y = 0
+        elif self.isPressed_up:
+            x = 0;y = -1
+        elif self.isPressed_down:
+            x = 0;y = 1
+        self.direction = x,y
+
     def clamp(self, n, min, max):
         if n < min:
             return min
