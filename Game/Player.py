@@ -1,7 +1,7 @@
 import pygame
 import os
 
-class pygame_PlayerController:
+class Controller:
     
     def __init__(self, spriteSheet, position, speed):
         #movement

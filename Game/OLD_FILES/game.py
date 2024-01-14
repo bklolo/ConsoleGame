@@ -5,7 +5,7 @@ import msvcrt
 import time
 # Custom classes
 from Board import Board
-from PlayerController import PlayerController
+from Game.Player import PlayerController
 from Classes import *
 
 # TODO:
