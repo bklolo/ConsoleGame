@@ -3,6 +3,10 @@ from pygame.locals import QUIT, KEYDOWN, K_ESCAPE
 import tools.WorldGenerator as wg
 from pygame_PlayerController import pygame_PlayerController
 
+#
+previousFrameTicks = 0
+currentFrameTicks = 0
+deltaTime = 0
 
 # Pygame init
 pygame.init()
@@ -10,7 +14,7 @@ pygame.init()
 # Screen init
 screen_width = 1080
 screen_height = 720
-screen = pygame.display.set_mode((screen_width, screen_height))
+screen = pygame.display.set_mode((screen_width, screen_height),pygame.RESIZABLE)
 pygame.display.set_caption("Pygame")
 
 # Generate world
@@ -30,8 +34,8 @@ world = world_generator.world
 
 
 #Setup character 
-player_images =[pygame.image.load(f"character-slices/tile_{i}.png") for i in range(0,7)]
-p = pygame_PlayerController(player_images,(0,0), 5)
+player_images =[pygame.image.load(f"character-slices/tile_{i}.png") for i in range(0,8)]
+p = pygame_PlayerController(player_images,(0,0), 1)
 
 # Load tiles (total of 100)
 tile_images = [pygame.image.load(f"output_tiles/tile_{i}.png") for i in range(0, 101)]
@@ -68,8 +72,10 @@ black = (0,0,0)
 # Game loop
 playing = True
 while playing:
-    # Update game logic here
-
+    #populating delta time
+    currentFrameTicks = pygame.time.get_ticks()
+    deltaTime = currentFrameTicks - previousFrameTicks
+    previousFrameTicks = currentFrameTicks 
     # Clear the screen
     screen.fill(black)
 
@@ -85,7 +91,7 @@ while playing:
             screen.blit(tile, (x, y))
 
     p.update()
-    p.draw(screen)
+    p.draw(screen, deltaTime)
 
     # Update the surface/display (OpenGL support?)
     pygame.display.flip()
