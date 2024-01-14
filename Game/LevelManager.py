@@ -7,10 +7,10 @@ class Scene:
 
 class World:
     """The World class houses all scenes, static and generated"""
-    def __init__(self, width, length):
+    def __init__(self, width, height):
         self.width = width      # width of World grid
-        self.length = length    # length of World grid
-        self.world = [[Scene() for _ in range(width)] for _ in range(length)]   # Generate [[scene_1],[scene_2],...,[scene_N]]
+        self.height = height    # height of World grid
+        self.world = [[Scene() for _ in range(width)] for _ in range(height)]   # Generate [[scene_1],[scene_2],...,[scene_N]]
     
     # Return a list of the world, as it is
     def get_world(self):
@@ -18,18 +18,18 @@ class World:
 
     def get_scene(self, x, y):
         """Return the contents of a scene, else None"""
-        if 0 <= x < self.width and 0 <= y < self.length:
+        if 0 <= x < self.width and 0 <= y < self.height:
             return self.world[y][x].contents
         else:
             return None
 
     # Add the contents of a scene to the world
     def add_scene_contents(self, x, y, contents):
-        if 0 <= x < self.width and 0 <= y < self.length:
+        if 0 <= x < self.width and 0 <= y < self.height:
             self.world[y][x].contents.extend(contents)
 
     def generate_scene(self, x, y):
-        generator = SceneGenerator(self.width, self.length)
+        generator = SceneGenerator(self.width, self.height)
         new_contents = generator.generate_scene()
         self.add_scene_contents(x, y, new_contents)
 
