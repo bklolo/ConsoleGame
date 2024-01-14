@@ -16,39 +16,31 @@ screen_height = 480
 screen = pygame.display.set_mode((screen_width, screen_height),pygame.RESIZABLE)
 pygame.display.set_caption("Pygame")
 
+################### Level Manager ###################
 # Generate world
 world = World(screen_width, screen_height)
 world.generate_scene(0,0)
 scene = world.get_scene(0,0)
-
-# Tilemapper
-#######################################################
 mapper = TileMapper("output_tiles", 100, scene)
 tile_images = mapper.get_tile_images_list()
 tile_size = mapper.get_tile_size()
-
-# Add a new character mapping
 mapper.add_char_to_dict(' ', 80)
 mapper.add_char_to_dict('T', 15)
 mapper.add_char_to_dict('M', 16)
-
-# grab individual tiles
 mapper.map_chars_to_tiles()
 tilemap_data = mapper.get_tilemap()
-########################################################
+################ End Level Manager ##################
 
 #Setup character 
 player_images =[pygame.image.load(f"character-slices/tile_{i}.png") for i in range(0,8)]
 player = Controller(player_images,(0,0), 10)
 
-# Frame rated
+# Game loop vars
 clock = pygame.time.Clock()
-
+playing = True
 white = (255,255,255)
 black = (0,0,0)
-
-# Game loop
-playing = True
+################ Game Loop ##################
 while playing:
     #populating delta time
     currentFrameTicks = pygame.time.get_ticks()

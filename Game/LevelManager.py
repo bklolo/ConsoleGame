@@ -5,8 +5,8 @@ class Scene:
     def __init__(self):
         self.contents = []
 
-# The World class houses all scenes, static and generated
 class World:
+    """The World class houses all scenes, static and generated"""
     def __init__(self, width, length):
         self.width = width      # width of World grid
         self.length = length    # length of World grid
@@ -16,8 +16,8 @@ class World:
     def get_world(self):
         return [[scene.contents for scene in row] for row in self.world]
 
-    # Return the contents of a scene, else None
     def get_scene(self, x, y):
+        """Return the contents of a scene, else None"""
         if 0 <= x < self.width and 0 <= y < self.length:
             return self.world[y][x].contents
         else:
@@ -34,14 +34,12 @@ class World:
         self.add_scene_contents(x, y, new_contents)
 
 class SceneGenerator:
-    global CHARS
-    global PROBABILITIES
+    global CHARS ; global PROBABILITIES
     CHARS = ['M', ' ', 'T']
     PROBABILITIES = [0.06, 0.02, 0.2,3]
 
     def __init__(self, width, height):
-        self.width = width
-        self.height = height
+        self.width = width ; self.height = height
         self.scene = self.generate_scene()
 
     def generate_scene(self):
@@ -49,8 +47,7 @@ class SceneGenerator:
             [self.generate_tile() for x in range(self.width)] for y in range(self.height)]
 
     def generate_tile(self):
-        global PROBABILITIES
-        global CHARS
+        global PROBABILITIES ; global CHARS
         return random.choice(CHARS) if random.random() < random.choice(PROBABILITIES) else ' '
 
     # Clustering algo
@@ -81,20 +78,24 @@ class SceneGenerator:
 
     # Clustering algorithm that makes chars extra scarce (maybe good for flora/fauna spawning)
     def cluster_plants(self, i, j):
-            count_m = self.cull(i, j, 'M')
-            count_t = self.cull(i, j, 'T')
-            count_sp = self.cull(i, j, ' ')
-
+            count_m = self.surrounding_char_count(i, j, 'M')
+            count_t = self.surrounding_char_count(i, j, 'T')
+            count_sp = self.surrounding_char_count(i, j, ' ')
+            # if M is max
             if count_m > count_t and count_m > count_sp:
                 self.cluster_neighbors('M')
+            # if T is max
             elif count_t > count_sp:
                 self.cluster_neighbors('T')
+            # else ' ' is max
             else:
                 self.cluster_neighbors(' ')
 
-    def cull(self, i, j, count_char):
+    def surrounding_char_count(self, i, j, count_char):
+        """for each surrounding cell (3x3), if in bounds, add to that chars count"""
         count_x = sum(1 for x in range(i - 1, i + 1) for y in range(j - 1, j + 1)
-                        if (0 <= x < self.width) and (0 <= y < self.height) and (self.scene[x][y] == count_char))
+                        if (0 <= x < self.width) and (0 <= y < self.height) 
+                        and (self.scene[x][y] == count_char))
         
         return count_x
     
@@ -117,11 +118,11 @@ class SceneGenerator:
             else:
                 file.write("#" * (20 + 6) + '\n')
 
-# TODO: left off implementing the code in the comment below
 class TileMapper:
+    """Map all chars in generated Scene to output_tiles"""
     
-    def __init__(self, folder, num_of_tiles, scene) -> None:
-        self.folder = folder                # tile location  
+    def __init__(self, tile_folder, num_of_tiles, scene) -> None:
+        self.folder = tile_folder           # tile location  
         self.num_of_tiles = num_of_tiles    # number of tiles to collect
         self.scene = scene                  # scene to map to
         self.tile_images = []               # list of tiles
@@ -132,16 +133,19 @@ class TileMapper:
         return self.dict
     
     def add_char_to_dict(self, char, tile_index):
+        """Add (char: tile_number) key-value pairs to dictionary"""
         self.dict[char] = tile_index
 
     def map_chars_to_tiles(self):        
-        # Convert chars to tiles
+        """Convert chars to tiles (store each tile index for each char within scene)"""
         self.tilemap_data = [[self.dict[char] for char in row] for row in self.scene]
 
     def get_tilemap(self):
+        """Return the list of tile/image indexes"""
         return self.tilemap_data
     
     def get_tile_images_list(self):
+        """Create and return the list of image files"""
         self.tile_images = [pygame.image.load(f"{self.folder}/tile_{i}.png") for i in range(0, self.num_of_tiles + 1)]
         return self.tile_images
 
