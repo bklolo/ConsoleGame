@@ -29,6 +29,19 @@ mapper.add_char_to_dict('T', 15)
 mapper.add_char_to_dict('M', 16)
 mapper.map_chars_to_tiles()
 tilemap_data = mapper.get_tilemap()
+
+field = pygame.Surface((screen_width, screen_height)) 
+
+#Draw tiles on a surface based on tilemap_data
+for row_index, row in enumerate(tilemap_data):
+    for col_index, tile_index in enumerate(row):
+        # Get the tile image corresponding to the tile index
+        tile = tile_images[tile_index]
+        # Calculate where to draw the tile
+        x = col_index * tile_size
+        y = row_index * tile_size
+        # Blit(draw) the tile onto the surface
+        field.blit(tile, (x, y))
 ################ End Level Manager ##################
 
 #Setup character 
@@ -40,26 +53,19 @@ clock = pygame.time.Clock()
 playing = True
 white = (255,255,255)
 black = (0,0,0)
+
 ################ Game Loop ##################
 while playing:
     #populating delta time
-    currentFrameTicks = pygame.time.get_ticks()
+    currentFrameTicks = clock.get_time()
     deltaTime = currentFrameTicks - previousFrameTicks
     previousFrameTicks = currentFrameTicks 
     # Clear the screen
     screen.fill(black)
 
-    #Draw tiles on the screen based on tilemap_data
-    for row_index, row in enumerate(tilemap_data):
-        for col_index, tile_index in enumerate(row):
-            # Get the tile image corresponding to the tile index
-            tile = tile_images[tile_index]
-            # Calculate where to draw the tile
-            x = col_index * tile_size
-            y = row_index * tile_size
-            # Blit(draw) the tile onto the screen
-            screen.blit(tile, (x, y))
- 
+    #Draw the map 
+    screen.blit(field,(0,0))
+
     player.update()
     player.draw(screen, deltaTime)
 
