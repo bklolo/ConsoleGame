@@ -46,7 +46,7 @@ for row_index, row in enumerate(tilemap_data):
 
 #Setup character 
 player_images =[pygame.image.load(f"character-slices/tile_{i}.png") for i in range(0,8)]
-player = Controller(player_images,(0,0), 10)
+player = Controller(player_images,(0,0), 1)
 
 # Game loop vars
 clock = pygame.time.Clock()
@@ -57,7 +57,7 @@ black = (0,0,0)
 ################ Game Loop ##################
 while playing:
     #populating delta time
-    currentFrameTicks = clock.get_time()
+    currentFrameTicks = pygame.time.get_ticks()
     deltaTime = currentFrameTicks - previousFrameTicks
     previousFrameTicks = currentFrameTicks 
     # Clear the screen
