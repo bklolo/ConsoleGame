@@ -11,14 +11,16 @@ deltaTime = 0
 pygame.init()
 
 # Screen init
-screen_width = 720
-screen_height = 480
-screen = pygame.display.set_mode((screen_width, screen_height),pygame.RESIZABLE)
+screen_width = 360
+screen_height = 240
+screen = pygame.display.set_mode((screen_width, screen_height),pygame.SCALED)
 pygame.display.set_caption("Pygame")
 
 ################### Level Manager ###################
 # Generate world
-world = World(screen_width, screen_height)
+world_width = 1080
+world_height = 720
+world = World(world_width, world_height)
 world.generate_scene(0,0)
 scene = world.get_scene(0,0)
 mapper = TileMapper("output_tiles", 100, scene)
@@ -30,7 +32,7 @@ mapper.add_char_to_dict('M', 16)
 mapper.map_chars_to_tiles()
 tilemap_data = mapper.get_tilemap()
 
-field = pygame.Surface((screen_width, screen_height)) 
+field = pygame.Surface((world_width, world_height)) 
 
 #Draw tiles on a surface based on tilemap_data
 for row_index, row in enumerate(tilemap_data):
@@ -63,8 +65,8 @@ while playing:
     # Clear the screen
     screen.fill(black)
 
-    #Draw the map 
-    screen.blit(field,(0,0))
+    x,y = player.position
+    screen.blit(field,(-x,-y))
 
     player.update()
     player.draw(screen, deltaTime)
