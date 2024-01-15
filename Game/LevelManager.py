@@ -1,16 +1,18 @@
 import pygame
 import random
-# Represents each scene in the World
-class Scene:
-    def __init__(self):
-        self.contents = []
 
 class World:
     """The World class houses all scenes, static and generated"""
+    class Scene:
+        """Represents each scene in the World"""
+        def __init__(self):
+            self.contents = []
+
+    # Initialize World()
     def __init__(self, width, height):
         self.width = width      # width of World grid
         self.height = height    # height of World grid
-        self.world = [[Scene() for _ in range(width)] for _ in range(height)]   # Generate [[scene_1],[scene_2],...,[scene_N]]
+        self.world = [[World.Scene() for _ in range(width)] for _ in range(height)]   # Generate [[scene_1],[scene_2],...,[scene_N]]
     
     # Return a list of the world, as it is
     def get_world(self):
@@ -151,57 +153,3 @@ class TileMapper:
 
     def get_tile_size(self):
         return self.tile_images[0].get_width()
-
-# Test mapper
-'''
-scene = Scene()
-scene.contents = [['M','T',' '],['M',' ',' '],[' ','T',' ']]
-mapper = TileMapper("output_tiles", 100, scene)
-tile_images = mapper.get_tile_images_list()
-tile_size = mapper.get_tile_size()
-
-# Add a new character mapping
-mapper.add_char_to_dict(' ', tile_images[80])
-mapper.add_char_to_dict('T', tile_images[15])
-mapper.add_char_to_dict('M', tile_images[16])
-
-# grab individual tiles
-mapper.map_chars_to_tiles()
-tilemap_data = mapper.get_tilemap()
-'''
-
-# Data for testing mapper
-''' 
-# Load tiles (total of 100)
-tile_images = [pygame.image.load(f"output_tiles/tile_{i}.png") for i in range(0, 101)]
-tile_size = tile_images[0].get_width() # not sure that all tiles are same width
-
-player_char = tile_images[5]
-
-# Dictionary to map chars to tiles
-char_to_tile = {' ': tile_images.index(tile_images[80]), 
-                'T': tile_images.index(tile_images[15]), 
-                'M': tile_images.index(tile_images[16])
-                }
-
-# Convert chars to tiles
-tilemap_data = [[char_to_tile[char] for char in row] for row in scene]
-
-'''
-
-
-'''
-# Example usage:
-screen_width = 10
-screen_height = 5
-grid = 4
-world = World(3, 3) # world grid
-world.generate_scene(0,0)
-world.generate_scene(2,2)
-
-start_level = world.get_scene(0,0)
-level1 = world.get_scene(2,2)
-# Access contents of a scene
-print(level1)
-print(world.get_world())
-'''
