@@ -48,7 +48,7 @@ for row_index, row in enumerate(tilemap_data):
 
 #Setup character 
 player_images =[pygame.image.load(f"character-slices/tile_{i}.png") for i in range(0,8)]
-player = Controller(player_images,(0,0), 1)
+player = Controller(player_images,(0,0), 1, world_width, world_height)
 
 # Game loop vars
 clock = pygame.time.Clock()
@@ -62,18 +62,45 @@ while playing:
     currentFrameTicks = pygame.time.get_ticks()
     deltaTime = currentFrameTicks - previousFrameTicks
     previousFrameTicks = currentFrameTicks 
+    
+    ##############UPDATE##############################
+    player.update()
+    ##################################################
+
+    ##############DRAW################################
     # Clear the screen
     screen.fill(black)
+    
+    #create a temp map to draw the character on so the map isnt ruined
+    temp = pygame.Surface((world_width, world_height))
+    temp.blit(field,(0,0)) 
+    player.draw(temp, deltaTime)
 
-    x,y = player.position
-    screen.blit(field,(-x,-y))
+    # Calculate the Viewport positon "Camera" That follows the player around
+    xoffset = screen_width/2 
+    yoffset = screen_height/2 
+    x,y = player.world_position
+    
+    if x < xoffset:
+        x = 0
+    elif x > world_width - xoffset:
+        x = world_width - screen_width
+    else:
+        x -= xoffset
 
-    player.update()
-    player.draw(screen, deltaTime)
+    if y < yoffset:
+        y = 0
+    elif y > world_height - yoffset:
+        y = world_height -screen_height
+    else:
+        y -= yoffset
+   
+    screen.blit(temp,(-x ,-y))
 
     # Update the surface/display (OpenGL support?)
     pygame.display.flip()
-
+    ##################################################
+    
     # Define framerate
     clock.tick(60)
 

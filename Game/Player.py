@@ -3,9 +3,15 @@ import os
 
 class Controller:
     
-    def __init__(self, spriteSheet, position, speed):
+    def __init__(self, spriteSheet, startPosition, speed, world_width, world_height):
+        #size
+        self.width = 16
+        self.height = 16
+        self.world_width = world_width
+        self.world_height = world_height
+        
         #movement
-        self.position = position
+        self.world_position = startPosition
         self.speed = speed
         self.currentSpeed = 0
         
@@ -44,27 +50,27 @@ class Controller:
 
         #initial left right up down
         if self.direction == (0,0):
-            screen.blit(self.spriteSheet_down[0], self.position)
+            screen.blit(self.spriteSheet_down[0], self.world_position)
         elif self.direction == (-1,0):
             if(self.currentSpeed > 0):
-                screen.blit(self.spriteSheet_left[self.count%2], self.position)
+                screen.blit(self.spriteSheet_left[self.count%2], self.world_position)
             else:
-                screen.blit(self.spriteSheet_left[0], self.position)
+                screen.blit(self.spriteSheet_left[0], self.world_position)
         elif self.direction == (1,0):
             if(self.currentSpeed > 0):
-                screen.blit(self.spriteSheet_right[self.count%2], self.position)
+                screen.blit(self.spriteSheet_right[self.count%2], self.world_position)
             else:
-                screen.blit(self.spriteSheet_right[0], self.position)
+                screen.blit(self.spriteSheet_right[0], self.world_position)
         elif self.direction == (0, -1):
             if(self.currentSpeed > 0):
-                screen.blit(self.spriteSheet_up[self.count%2], self.position)
+                screen.blit(self.spriteSheet_up[self.count%2], self.world_position)
             else:
-                screen.blit(self.spriteSheet_up[0], self.position)
+                screen.blit(self.spriteSheet_up[0], self.world_position)
         elif self.direction == (0,1):
             if(self.currentSpeed > 0):
-                screen.blit(self.spriteSheet_down[self.count%2], self.position)
+                screen.blit(self.spriteSheet_down[self.count%2], self.world_position)
             else:
-                screen.blit(self.spriteSheet_down[0], self.position)
+                screen.blit(self.spriteSheet_down[0], self.world_position)
         
     def Move(self):
         #Check if any of the movement keys are currently down. If they are move, else don't. 
@@ -74,10 +80,10 @@ class Controller:
             self.currentSpeed = 0
 
         #Move character by current speed amount TODO:Delta time?
-        x,y = self.position
-        x = self.clamp(x + (self.currentSpeed * self.direction[0]), 0,1050)         
-        y = self.clamp(y + (self.currentSpeed * self.direction[1]), 0, 700)
-        self.position = x,y       
+        x,y = self.world_position
+        x = self.clamp(x + (self.currentSpeed * self.direction[0]), 0, self.world_width - self.width)         
+        y = self.clamp(y + (self.currentSpeed * self.direction[1]), 0, self.world_height - self.height)    
+        self.world_position = x,y      
                     
     def GetInput(self):
         for event in pygame.event.get():
