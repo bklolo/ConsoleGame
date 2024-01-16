@@ -8,8 +8,11 @@ from pygame.locals import QUIT, KEYDOWN, K_ESCAPE
 # Initialize Pygame
 pygame.init()
 
+image_path = "Game/images/dq1_sprite_colored.png"
+output_folder = "character-slices_new"
+
+
 # Load the source image containing tiles
-image_path = "Game/images/chars_nobg.png"
 original_image = pygame.image.load(image_path)
 
 # Define the size of each tile
@@ -31,7 +34,6 @@ for row in range(num_rows):
         tiles.append(tile)
 
 # Create a folder to save the extracted tiles
-output_folder = "test"
 os.makedirs(output_folder, exist_ok=True)
 
 # Save each tile as a separate image file

@@ -49,7 +49,7 @@ mapper.draw_tiles(tilemap_data, tile_size, tile_images, field)
 
 ################## Setup character ##################
 player_start_pos = (world_width/2,world_height/2) ; player_speed = 5
-player_images =[pygame.image.load(f"character-slices/tile_{i}.png") for i in range(0,8)]
+player_images =[pygame.image.load(f"character-slices_new/tile_{i}.png") for i in range(0,8)]
 player = Controller(player_images, player_start_pos, player_speed, world_width, world_height)
 #####################################################
 

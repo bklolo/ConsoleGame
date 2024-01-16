@@ -9,7 +9,7 @@ from pygame.locals import QUIT, KEYDOWN, K_ESCAPE
 pygame.init()
 
 # Load the source image containing tiles
-image_path = "Game/images/chars_nobg.png"
+image_path = "Game/images/dq1_sprite_colored.png"
 original_image = pygame.image.load(image_path)
 
 # Define the size of each tile
@@ -42,7 +42,7 @@ for spriteW in sprite_width:
 #         tiles.append(tile)
 
 # Create a folder to save the extracted tiles
-output_folder = "character-slices"
+output_folder = "updated_character_slices"
 os.makedirs(output_folder, exist_ok=True)
 
 # Save each tile as a separate image file
