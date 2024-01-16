@@ -48,30 +48,18 @@ class Controller:
             self.count += 1
             self.timePassed = 0
 
-        #initial left right up down
-        if self.direction == (0,0):
-            screen.blit(self.spriteSheet_down[0], self.world_position)
-        elif self.direction == (-1,0):
-            if(self.currentSpeed > 0):
-                screen.blit(self.spriteSheet_left[self.count%2], self.world_position)
-            else:
-                screen.blit(self.spriteSheet_left[0], self.world_position)
-        elif self.direction == (1,0):
-            if(self.currentSpeed > 0):
-                screen.blit(self.spriteSheet_right[self.count%2], self.world_position)
-            else:
-                screen.blit(self.spriteSheet_right[0], self.world_position)
-        elif self.direction == (0, -1):
-            if(self.currentSpeed > 0):
-                screen.blit(self.spriteSheet_up[self.count%2], self.world_position)
-            else:
-                screen.blit(self.spriteSheet_up[0], self.world_position)
-        elif self.direction == (0,1):
-            if(self.currentSpeed > 0):
-                screen.blit(self.spriteSheet_down[self.count%2], self.world_position)
-            else:
-                screen.blit(self.spriteSheet_down[0], self.world_position)
+        sprite_dirs = {
+            (0,0):  self.spriteSheet_down[0],
+            (-1,0): self.spriteSheet_left[self.count%2]  if self.currentSpeed > 0 else self.spriteSheet_left[0],
+            (1,0):  self.spriteSheet_right[self.count%2] if self.currentSpeed > 0 else self.spriteSheet_right[0],
+            (0,-1): self.spriteSheet_up[self.count%2]    if self.currentSpeed > 0 else self.spriteSheet_up[0],
+            (0,1):  self.spriteSheet_down[self.count%2]  if self.currentSpeed > 0 else self.spriteSheet_down[0],
+            }
         
+        # Blit the directional sprite onto the screen, default sprite if no dir
+        screen.blit(sprite_dirs.get(self.direction, self.spriteSheet_down[0]), self.world_position)
+
+            
     def Move(self):
         #Check if any of the movement keys are currently down. If they are move, else don't. 
         if self.isPressed_left or self.isPressed_right or self.isPressed_up or self.isPressed_down:

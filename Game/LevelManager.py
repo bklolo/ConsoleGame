@@ -10,9 +10,10 @@ class World:
 
     # Initialize World()
     def __init__(self, width, height):
-        self.width = width      # width of World grid
+        self.width = width      # width of: each row, each scenelist
         self.height = height    # height of World grid
         self.world = [[World.Scene() for _ in range(width)] for _ in range(height)]   # Generate [[scene_1],[scene_2],...,[scene_N]]
+        self.generator = SceneGenerator(self.width, self.height)
     
     # Return a list of the world, as it is
     def get_world(self):
@@ -25,15 +26,15 @@ class World:
         else:
             return None
 
-    # Add the contents of a scene to the world
+    def generate_scene(self, x, y):
+        new_contents = self.generator.generate_scene()
+        self.add_scene_contents(x, y, new_contents)
+    
     def add_scene_contents(self, x, y, contents):
+        """Add the contents of a scene to the world list"""
         if 0 <= x < self.width and 0 <= y < self.height:
             self.world[y][x].contents.extend(contents)
 
-    def generate_scene(self, x, y):
-        generator = SceneGenerator(self.width, self.height)
-        new_contents = generator.generate_scene()
-        self.add_scene_contents(x, y, new_contents)
 
 class SceneGenerator:
     global CHARS ; global PROBABILITIES
@@ -152,4 +153,40 @@ class TileMapper:
         return self.tile_images
 
     def get_tile_size(self):
+        """Return the size (width) of the tile at the first index"""
         return self.tile_images[0].get_width()
+
+    def draw_tiles(self, tilemap_data, tile_size, tile_images, field):
+        """Draw tiles on a surface based on tilemap_data"""
+        for row_index, row in enumerate(tilemap_data):
+            for col_index, tile_index in enumerate(row):
+                # Get the tile image corresponding to the tile index
+                tile = tile_images[tile_index]
+                # Calculate where to draw the tile
+                x = col_index * tile_size
+                y = row_index * tile_size
+                # Blit(draw) the tile onto the surface
+                field.blit(tile, (x, y))
+
+
+'''
+# TEST CODE HERE #
+world_width = 2     # width of each row, width of each scenelist, 
+world_height = 5    # number of rows in a scene, number of scenelists in a world
+world = World(world_width, world_height)
+# print blank world
+print(f"blank world\n{world.get_world()}\n")
+# generate scenes
+for i in range(world_width):
+    for j in range(world_height):
+        scene = world.generate_scene(i,j)
+# print populated world
+print(f"populated world\n{world.get_world()}\n")
+
+for x, scenelist in enumerate(world.get_world()):
+    print(f"\nscenelist {x}\n{scenelist}\n")
+    for y, scene in enumerate(scenelist):
+        print(f"\nscene {x,y}\n{scene}\n")
+        for row in scene:
+            print(f"{row}")
+'''
