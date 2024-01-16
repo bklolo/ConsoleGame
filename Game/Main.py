@@ -12,19 +12,20 @@ from Debug import Debug
 # World
 #   - open world, but generate scene based on position?
 
-os.environ['SDL_VIDEO_WINDOW_POS'] = "900,100"  # where window is located
+os.environ['SDL_VIDEO_WINDOW_POS'] = "700,30"  # where window is located
 # Pygame init
 pygame.init()
 
 # Screen init
-screen_width = screen_height = 300
+screen_width = 1000
+screen_height = 600
 pygame.display.set_mode((screen_width, screen_height),pygame.SCALED)
 pygame.display.set_caption("Pygame")
 screen = pygame.display.get_surface()
 ################### Level Manager ###################
 # Generate world
-world_width = 600   # width of: rows in a scene, scenelists in a world
-world_height = 600  # number of: rows in a scene, scenelists in a world
+world_width = 1024   # width of: rows in a scene, scenelists in a world
+world_height = 768  # number of: rows in a scene, scenelists in a world
 tile_count = 100
 tile_folder = "output_tiles"
 world = World(world_width, world_height)
@@ -46,17 +47,17 @@ mapper.draw_tiles(tilemap_data, tile_size, tile_images, field)
 
 ################ End Level Manager ##################
 
-#Setup character 
-player_start_pos = (world_width/2,world_height/2) ; player_speed = 1
+################## Setup character ##################
+player_start_pos = (world_width/2,world_height/2) ; player_speed = 5
 player_images =[pygame.image.load(f"character-slices/tile_{i}.png") for i in range(0,8)]
 player = Controller(player_images, player_start_pos, player_speed, world_width, world_height)
+#####################################################
+
 # Game loop vars
 clock = pygame.time.Clock()
 playing = True
 white = (255,255,255)
 black = (0,0,0)
-
-
 previousFrameTicks = 0
 currentFrameTicks = 0
 deltaTime = 0
@@ -69,9 +70,7 @@ while playing:
     deltaTime = currentFrameTicks - previousFrameTicks
     previousFrameTicks = currentFrameTicks 
     
-    ##############UPDATE##############################
     player.update()
-    ##################################################
 
     ##############DRAW################################
     # Clear the screen
@@ -82,33 +81,31 @@ while playing:
     temp.blit(field,(0,0)) 
     player.draw(temp, deltaTime)
 
-    x,y = player.world_position
+    player_x,player_y = player.world_position
 
     ################ DEBUG STUFF #################
-    Debug.print(temp, player.world_position, y-10, x)
-    Debug.debug_playerRect(x,y,tile_size, temp)
-    Debug.debug_screenRect(half_screen_width, half_screen_height, screen_width, screen_height, temp)
+    Debug.print(temp, player.world_position, player_y-10, player_x)
+    Debug.print(temp, half_screen_width, player_y+15, player_x)
+    Debug.debug_playerRect((player_x,player_y),(tile_size,tile_size), temp)
+    Debug.debug_screenRect((world_width-screen_width, world_height-screen_height), temp)
     ################################################
 
     # Calculate the Viewport positon "Camera" That follows the player around
-    xoffset = half_screen_width
-    yoffset = half_screen_height
-    
-    if x < xoffset:
-        x = 0
-    elif x > world_width - xoffset:
-        x = world_width - screen_width
+    if player_x < half_screen_width:
+        player_x = 0
+    elif player_x > world_width - half_screen_width:
+        player_x = world_width - screen_width
     else:
-        x -= xoffset
+        player_x -= half_screen_width
 
-    if y < yoffset:
-        y = 0
-    elif y > world_height - yoffset:
-        y = world_height -screen_height
+    if player_y < half_screen_height:
+        player_y = 0
+    elif player_y > world_height - half_screen_height:
+        player_y = world_height -screen_height
     else:
-        y -= yoffset
+        player_y -= half_screen_height
    
-    screen.blit(temp,(-x ,-y))
+    screen.blit(temp,(-player_x ,-player_y))
 
 
     # Update the surface/display (OpenGL support?)
