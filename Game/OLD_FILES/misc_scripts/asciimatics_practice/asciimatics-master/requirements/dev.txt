@@ -1,5 +1,0 @@
--r base.txt
-Pillow
-coveralls
-sphinx
-urllib3

@@ -15,8 +15,8 @@ class World:
         self.world = [[World.Scene() for _ in range(width)] for _ in range(height)]   # Generate [[scene_1],[scene_2],...,[scene_N]]
         self.generator = SceneGenerator(self.width, self.height)
     
-    # Return a list of the world, as it is
     def get_world(self):
+        """Return a list of the world"""
         return [[scene.contents for scene in row] for row in self.world]
 
     def get_scene(self, x, y):
