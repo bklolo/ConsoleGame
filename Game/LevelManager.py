@@ -4,54 +4,67 @@ import random
 class World:
     """The World class houses all scenes, static and generated"""
     class Scene:
-        """Represents each scene in the World"""
+        """Represents each scene in the World (just a list, maybe don't need)"""
         def __init__(self):
             self.contents = []
 
     # Initialize World()
-    def __init__(self, width, height):
-        self.width = width      # width of: each row, each scenelist
-        self.height = height    # height of World grid
-        self.world = [[World.Scene() for _ in range(width)] for _ in range(height)]   # Generate [[scene_1],[scene_2],...,[scene_N]]
-        self.generator = SceneGenerator(self.width, self.height)
+    def __init__(self, scene_width, scene_height):
+        self.scenelist_width = 1
+        self.scenelist_count = 1
+        self.scene_width = scene_width  # row width
+        self.scene_height = scene_height    # number of rows
+        self.world = [[World.Scene() for _ in range(1)] for _ in range(1)]   # Generate blank world: world[[ scenelist[[ scene ]] ]]
+        self.generator = SceneGenerator(self.scene_width, self.scene_height)    # Populate a single scene
+        self.populate_world(scene_width, scene_height)   # populate world
+    
+    
+    def populate_world(self, scene_width, scene_height):
+        """Fills scenes with chars"""
+        for y, scenelist in enumerate(self.get_world()):
+            for x, scene in enumerate(scenelist):
+                contents = self.generator.generate_scene()
+                if 0 <= x < self.scenelist_width and 0 <= y < self.scenelist_count:
+                    self.world[y][x].contents.extend(contents)
+    
     
     def get_world(self):
         """Return a list of the world"""
         return [[scene.contents for scene in row] for row in self.world]
 
-    def get_scene(self, x, y):
+    
+    def get_scene(self, y, x):
         """Return the contents of a scene, else None"""
-        if 0 <= x < self.width and 0 <= y < self.height:
+        if 0 <= x < self.scenelist_width and 0 <= y < self.scenelist_count:
             return self.world[y][x].contents
         else:
             return None
 
-    def generate_scene(self, x, y):
+    
+    def generate_specific_scene(self, x, y):
         new_contents = self.generator.generate_scene()
         self.add_scene_contents(x, y, new_contents)
     
+
     def add_scene_contents(self, x, y, contents):
         """Add the contents of a scene to the world list"""
-        if 0 <= x < self.width and 0 <= y < self.height:
+        if 0 <= x < self.scenelist_width and 0 <= y < self.scenelist_count:
             self.world[y][x].contents.extend(contents)
 
 
 class SceneGenerator:
-    global CHARS ; global PROBABILITIES
-    CHARS = ['M', ' ', 'T']
-    PROBABILITIES = [0.06, 0.02, 0.2,3]
 
     def __init__(self, width, height):
         self.width = width ; self.height = height
-        self.scene = self.generate_scene()
+        self.CHARS = ['M', ' ', 'T']
+        self.PROB = [0.3, 0.5, 0.2]
+        #self.scene = self.generate_scene()
 
     def generate_scene(self):
-        return [
-            [self.generate_tile() for x in range(self.width)] for y in range(self.height)]
+        return [[self.generate_tile() for x in range(self.width)] for y in range(self.height)]
 
     def generate_tile(self):
-        global PROBABILITIES ; global CHARS
-        return random.choice(CHARS) if random.random() < random.choice(PROBABILITIES) else ' '
+        return random.choices(self.CHARS, weights=self.PROB)[0]  # Use random.choices with weights
 
     # Clustering algo
     def cluster_characters(self, thing):
@@ -96,7 +109,7 @@ class SceneGenerator:
 
     def surrounding_char_count(self, i, j, count_char):
         """for each surrounding cell (3x3), if in bounds, add to that chars count"""
-        count_x = sum(1 for x in range(i - 1, i + 1) for y in range(j - 1, j + 1)
+        count_x = sum(1 for x in range(i - 1, i + 2) for y in range(j - 1, j + 2)
                         if (0 <= x < self.width) and (0 <= y < self.height) 
                         and (self.scene[x][y] == count_char))
         
@@ -168,25 +181,40 @@ class TileMapper:
                 # Blit(draw) the tile onto the surface
                 field.blit(tile, (x, y))
 
-
 '''
 # TEST CODE HERE #
-world_width = 2     # width of each row, width of each scenelist, 
-world_height = 5    # number of rows in a scene, number of scenelists in a world
-world = World(world_width, world_height)
+world_width = 3
+world_height = 3
+scene_width = 2     # width of each row, width of each scenelist, 
+scene_height = 2    # number of rows in a scene, number of scenelists in a world
+world = World(world_width, world_height, scene_width, scene_height)
+print(f"blank world\n{world.get_world()}\n")
+print("populated world")
+for scenelist in world.get_world():
+    print(scenelist, end='\n')
+
 # print blank world
 print(f"blank world\n{world.get_world()}\n")
 # generate scenes
-for i in range(world_width):
-    for j in range(world_height):
-        scene = world.generate_scene(i,j)
+for row in range(scene_height):
+    for col in range(scene_width):
+        scene = world.generate_scene(row,col)
 # print populated world
-print(f"populated world\n{world.get_world()}\n")
+# print(f"populated world\n{world.get_world()}\n",end=' ')
+print("populated world")
+for scenelist in world.get_world():
+    for scene in scenelist:
+        print(scene, end='\n')
 
 for x, scenelist in enumerate(world.get_world()):
-    print(f"\nscenelist {x}\n{scenelist}\n")
-    for y, scene in enumerate(scenelist):
-        print(f"\nscene {x,y}\n{scene}\n")
-        for row in scene:
-            print(f"{row}")
+    print(f"\nscenelist {x}\n{scenelist}\n", end='\n')
+#     for y, scene in enumerate(scenelist):
+#         print(f"\nscene {x,y}\n{scene}\n")
+#         for row in scene:
+#             print(f"{row}")
+
+# print world
+for scenelist in world.get_world():
+    for scene in scenelist:
+        print(scene)
 '''

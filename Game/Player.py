@@ -77,7 +77,6 @@ class Controller:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit(); os.sys.exit()
-                main = False
             
             if event.type == pygame.KEYDOWN:
                 x,y = self.direction
