@@ -7,7 +7,8 @@ class World:
         """Represents each scene in the World (just a list, maybe don't need)"""
         def __init__(self):
             self.contents = []
-
+# TODO
+# 
     # Initialize World()
     def __init__(self, scene_width, scene_height):
         self.scenelist_width = 1

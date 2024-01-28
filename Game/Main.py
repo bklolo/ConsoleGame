@@ -18,7 +18,8 @@ pygame.init()
 
 ################### Screen init #####################
 player_size = 16 # 
-display_width = display_height = 500  # screen bounds
+display_width = player_size * 25
+display_height = display_width * 0.75 # screen bounds
 pygame.display.set_mode((display_width, display_height),pygame.SCALED)
 pygame.display.set_caption("Pygame")
 screen = pygame.display.get_surface()
@@ -40,7 +41,8 @@ mapper.map_chars_to_tiles()
 
 tilemap_data = mapper.get_tilemap()
 
-field = pygame.Surface((display_width, display_height))   # surface scene is drawn on
+#field = pygame.Surface((display_width, display_height))   # surface scene is drawn on
+field = pygame.Surface((scene_width, scene_height))   # surface scene is drawn on
 
 mapper.draw_tiles(tilemap_data, tile_size, tile_images, field)
 
