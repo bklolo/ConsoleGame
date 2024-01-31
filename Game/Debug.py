@@ -1,6 +1,6 @@
 import pygame
 import random
-pygame.init()
+#pygame.init()
 
 font = pygame.font.SysFont('monospace', 10, True)
 
